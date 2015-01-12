@@ -219,6 +219,7 @@ public class OpenGL3Demo {
     private void render() {
         // set the ratio
         float ratio = WIDTH / (float) HEIGHT;
+        float rotation = (float) glfwGetTime() * 50.f;
 
         // set the viewport
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
@@ -232,7 +233,7 @@ public class OpenGL3Demo {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
         GL11.glTranslatef(x, y, 0f);
-        GL11.glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+        GL11.glRotatef(rotation, 0.f, 0.f, 1.f);
         GL11.glTranslatef(-x, -y, 0f);
 
         // activate the shaders
