@@ -72,7 +72,8 @@ public class OpenGL3Demo {
 
     // This will identify our color buffer
     int vertexbuffercolor;
-    private int vertexArreyID;
+    private double ratio;
+    private float rotation;
 
     public float getX() {
         return x;
@@ -165,7 +166,7 @@ public class OpenGL3Demo {
 
     private void initObjects() {
         // Create and bind the vertex id
-        vertexArreyID = glGenVertexArrays();
+        int vertexArreyID = glGenVertexArrays();
         glBindVertexArray(vertexArreyID);
 
         // An array of 3 vectors which represents 3 vertices
@@ -218,9 +219,18 @@ public class OpenGL3Demo {
 
     private void render() {
         // set the ratio
-        float ratio = WIDTH / (float) HEIGHT;
-        float rotation = (float) glfwGetTime() * 50.f;
+        ratio = WIDTH / (float) HEIGHT;
+        rotation = (float) glfwGetTime() * 50.f;
 
+        renderObjects();
+
+        // swap the color buffers
+        glfwSwapBuffers(window);
+
+
+    }
+
+    private void renderObjects() {
         // set the viewport
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
 
@@ -268,11 +278,6 @@ public class OpenGL3Demo {
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
         GL20.glDisableVertexAttribArray(0);
-
-        // swap the color buffers
-        glfwSwapBuffers(window);
-
-
     }
 
     private void update() {
