@@ -72,6 +72,7 @@ public class OpenGL3Demo {
 
     // This will identify our color buffer
     int vertexbuffercolor;
+    private int vertexArreyID;
 
     public float getX() {
         return x;
@@ -118,8 +119,53 @@ public class OpenGL3Demo {
         // bindings available for use.
         GLContext.createFromCurrent();
 
+        initObjects();
+
+        // load the shaders
+        shaderID = ShaderLoader.loadShaderPair("resources/shaders/triangle.vs", "resources/shaders/triangle.fs");
+
+
+        // Set the clear color (RGBA)
+        GL11.glClearColor(0f, 0f, 1f, 0f);
+
+        // Run the rendering loop until the user has attempted to close
+        // the window or has pressed the ESCAPE key.
+        while ( glfwWindowShouldClose(window) == GL11.GL_FALSE ) {
+
+            /* Get delta time and update the accumulator */
+            delta = timer.getDelta();
+            accumulator += delta;
+
+            // Poll for window events. The key callback above will only be
+            // invoked during this call.
+            //glfwPollEvents();
+            glfwWaitEvents();
+
+            /* Update game and timer UPS if enough time has passed */
+            while (accumulator >= interval) {
+                update();
+                timer.updateUPS();
+                accumulator -= interval;
+            }
+
+            /* Calculate alpha value for interpolation */
+            alpha = accumulator / interval;
+
+            /* Render game and update timer FPS */
+            render(alpha);
+            timer.updateFPS();
+
+            /* Update timer */
+            timer.update();
+            glfwSetWindowTitle(window, "Game | FPS: " + timer.getFPS()
+                    + ", UPS: " + timer.getUPS());
+
+        }
+    }
+
+    private void initObjects() {
         // Create and bind the vertex id
-        int vertexArreyID = glGenVertexArrays();
+        vertexArreyID = glGenVertexArrays();
         glBindVertexArray(vertexArreyID);
 
         // An array of 3 vectors which represents 3 vertices
@@ -168,46 +214,6 @@ public class OpenGL3Demo {
 
 
 
-        // load the shaders
-        shaderID = ShaderLoader.loadShaderPair("resources/shaders/triangle.vs", "resources/shaders/triangle.fs");
-
-
-        // Set the clear color (RGBA)
-        GL11.glClearColor(0f, 0f, 1f, 0f);
-
-        // Run the rendering loop until the user has attempted to close
-        // the window or has pressed the ESCAPE key.
-        while ( glfwWindowShouldClose(window) == GL11.GL_FALSE ) {
-
-            /* Get delta time and update the accumulator */
-            delta = timer.getDelta();
-            accumulator += delta;
-
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            //glfwPollEvents();
-            glfwWaitEvents();
-
-            /* Update game and timer UPS if enough time has passed */
-            while (accumulator >= interval) {
-                update();
-                timer.updateUPS();
-                accumulator -= interval;
-            }
-
-            /* Calculate alpha value for interpolation */
-            alpha = accumulator / interval;
-
-            /* Render game and update timer FPS */
-            render(alpha);
-            timer.updateFPS();
-
-            /* Update timer */
-            timer.update();
-            glfwSetWindowTitle(window, "Game | FPS: " + timer.getFPS()
-                    + ", UPS: " + timer.getUPS());
-
-        }
     }
 
     private void render(float alpha) {
