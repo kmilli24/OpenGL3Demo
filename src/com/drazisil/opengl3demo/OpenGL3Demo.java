@@ -200,6 +200,10 @@ public class OpenGL3Demo {
     }
 
     private void initObjects() {
+        float minusY = scale / 2;
+        float sideX = minusY * 1.72f;
+
+
         // Create and bind the vertex id
         int vertexArreyID = glGenVertexArrays();
         glBindVertexArray(vertexArreyID);
