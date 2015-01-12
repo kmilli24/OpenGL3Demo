@@ -76,31 +76,7 @@ public class OpenGL3Demo {
     // This will identify our color buffer
     int vertexbuffercolor;
 
-    public float getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
     private float rotation;
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
 
     private float x;
     private float y;
@@ -134,7 +110,7 @@ public class OpenGL3Demo {
         // Initial values
         //x = 400f;
         //y = 300f;
-        //z = 0;
+        z = 0f;
         //rotation = 0f;
         //defaultScale = 50f;
         scale = defaultScale;
