@@ -69,16 +69,26 @@ public class OpenGL3Demo {
     private int shaderID;
 
     // This will identify our vertex buffer
-    int vertexbuffer;
+    int vertexBuffer;
 
     // This will identify our color buffer
-    int vertexbuffercolor;
+    int vertexBufferColor;
 
     private float rotation;
 
     private float x;
     private float y;
     private float z;
+
+    public void start() {
+        isRunning = true;
+    }
+
+    public void stop() {
+        isRunning = false;
+    }
+
+    private boolean isRunning;
 
 
     public void run(){
@@ -106,6 +116,8 @@ public class OpenGL3Demo {
         // bindings available for use.
         GLContext.createFromCurrent();
 
+        start();
+
         // Initial values
         //x = 400f;
         //y = 300f;
@@ -125,7 +137,11 @@ public class OpenGL3Demo {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        while ( glfwWindowShouldClose(window) == GL11.GL_FALSE ) {
+        while (isRunning){
+
+            if ( glfwWindowShouldClose(window) == GL11.GL_TRUE ) {
+                isRunning = false;
+            }
 
             /* Get delta time and update the accumulator */
             delta = timer.getDelta();
@@ -174,11 +190,11 @@ public class OpenGL3Demo {
                 x + 0.f, y + 0.6f, z,
         };
 
-        // Generate 1 buffer, put the resulting identifier in vertexbuffer
-        vertexbuffer = GL15.glGenBuffers();
+        // Generate 1 buffer, put the resulting identifier in vertexBuffer
+        vertexBuffer = GL15.glGenBuffers();
 
-        // The following commands will talk about our 'vertexbuffer' buffer
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexbuffer);
+        // The following commands will talk about our 'vertexBuffer' buffer
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexBuffer);
 
         // Give our vertices to OpenGL.
         int amountOfVertices = 3;
@@ -198,11 +214,11 @@ public class OpenGL3Demo {
                 0f,  0f,  1f
         };
 
-        // Generate 1 buffer, put the resulting identifier in vertexbuffercolor
-        vertexbuffercolor = GL15.glGenBuffers();
+        // Generate 1 buffer, put the resulting identifier in vertexBufferColor
+        vertexBufferColor = GL15.glGenBuffers();
 
-        // The following commands will talk about our 'vertexbuffercolor' buffer
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexbuffercolor);
+        // The following commands will talk about our 'vertexBufferColor' buffer
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexBufferColor);
 
         // Give our vertices to OpenGL.
         FloatBuffer vertexDataColor = BufferUtils.createFloatBuffer(amountOfVertices * vertexSize);
@@ -245,7 +261,7 @@ public class OpenGL3Demo {
 
         // 1rst attribute buffer : vertices
         GL20.glEnableVertexAttribArray(0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexbuffer);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexBuffer);
         GL20.glVertexAttribPointer(
                 0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
                 3,                  // size
@@ -257,7 +273,7 @@ public class OpenGL3Demo {
 
         // 1rst attribute buffer : vertices
         GL20.glEnableVertexAttribArray(1);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexbuffercolor);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexBufferColor);
         GL20.glVertexAttribPointer(
                 1,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
                 3,                  // size
@@ -311,7 +327,7 @@ public class OpenGL3Demo {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
                     if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                        glfwSetWindowShouldClose(window, GL11.GL_TRUE); // We will detect this in our rendering loop
+                        stop();
 
                     if (key == GLFW_KEY_A && action == GLFW_RELEASE) x -= 0.35f * delta;
                     if (key == GLFW_KEY_D && action == GLFW_RELEASE) x += 0.35f * delta;
