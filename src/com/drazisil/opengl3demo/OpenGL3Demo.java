@@ -50,10 +50,6 @@ public class OpenGL3Demo {
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
 
-    public long getWindow() {
-        return window;
-    }
-
     // The window handle
     protected long window;
     // window width
@@ -70,18 +66,6 @@ public class OpenGL3Demo {
     float scale;
     float defaultScale;
     private float z;
-
-    public float getDefaultScale() {
-        return defaultScale;
-    }
-
-    public float getScale() {
-        return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
 
     // this will identify our shaders
     private int shaderID;
@@ -147,6 +131,14 @@ public class OpenGL3Demo {
         // bindings available for use.
         GLContext.createFromCurrent();
 
+        // Initial values
+        //x = 400f;
+        //y = 300f;
+        //z = 0;
+        //rotation = 0f;
+        //defaultScale = 50f;
+        scale = defaultScale;
+
         initObjects();
 
         // load the shaders
@@ -155,14 +147,6 @@ public class OpenGL3Demo {
 
         // Set the clear color (RGBA)
         GL11.glClearColor(0f, 0f, 1f, 0f);
-
-        // Initial values
-        x = 400f;
-        y = 300f;
-        z = 0;
-        rotation = 0f;
-        defaultScale = 50f;
-        scale = defaultScale;
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -337,8 +321,8 @@ public class OpenGL3Demo {
         glfwWindowHint(GLFW_VISIBLE, GL11.GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL11.GL_TRUE); // the window will be resizable
 
-        setWIDTH(1152);
-        setHEIGHT(720);
+        WIDTH = 1152;
+        HEIGHT = 720;
         setTITLE("Hello World!");
 
         // Create the window
