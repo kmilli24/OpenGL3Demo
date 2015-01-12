@@ -57,7 +57,6 @@ public class OpenGL3Demo {
 
     // widow height
     private int HEIGHT;
-    private String TITLE;
 
     float delta;
     float accumulator = 0f;
@@ -65,7 +64,6 @@ public class OpenGL3Demo {
     float alpha;
     float scale;
     float defaultScale;
-    private float z;
 
     // this will identify our shaders
     private int shaderID;
@@ -80,6 +78,7 @@ public class OpenGL3Demo {
 
     private float x;
     private float y;
+    private float z;
 
 
     public void run(){
@@ -160,8 +159,8 @@ public class OpenGL3Demo {
     }
 
     private void initObjects() {
-        float minusY = scale / 2;
-        float sideX = minusY * 1.72f;
+        //float minusY = scale / 2;
+        //float sideX = minusY * 1.72f;
 
 
         // Create and bind the vertex id
@@ -170,9 +169,9 @@ public class OpenGL3Demo {
 
         // An array of 3 vectors which represents 3 vertices
         float[] vertexTriangle = {
-                x - 0.6f, y -0.4f, 0.f,
-                x + 0.6f, y -0.4f, 0.f,
-                x + 0.f, y + 0.6f, 0.f,
+                x - 0.6f, y -0.4f, z,
+                x + 0.6f, y -0.4f, z,
+                x + 0.f, y + 0.6f, z,
         };
 
         // Generate 1 buffer, put the resulting identifier in vertexbuffer
@@ -219,7 +218,7 @@ public class OpenGL3Demo {
     private void render() {
         // set the ratio
         float ratio = WIDTH / (float) HEIGHT;
-        //rotation = (float) glfwGetTime() * 50.f;
+        rotation = (float) glfwGetTime() * 50.f;
 
         // set the viewport
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
@@ -227,14 +226,19 @@ public class OpenGL3Demo {
         // clear the framebuffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        //GL11.glMatrixMode(GL11.GL_PROJECTION);
+
+        // Without this one it races into negitive z-space
         GL11.glLoadIdentity();
+
+        // This one is needed to make it even on all sides
         GL11.glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glLoadIdentity();
-        GL11.glTranslatef(x, y, 0f);
+
+        //GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        //GL11.glLoadIdentity();
+        //GL11.glTranslatef(x, y, 0f);
         GL11.glRotatef(rotation, 0.f, 0.f, 1.f);
-        GL11.glTranslatef(-x, -y, 0f);
+        //GL11.glTranslatef(-x, -y, 0f);
 
         // activate the shaders
         GL20.glUseProgram(shaderID);
@@ -279,10 +283,6 @@ public class OpenGL3Demo {
 
     }
 
-    public float getDelta() {
-        return 0;
-    }
-
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -299,7 +299,7 @@ public class OpenGL3Demo {
 
         WIDTH = 1152;
         HEIGHT = 720;
-        setTITLE("Hello World!");
+        String TITLE = "Hello World!";
 
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
@@ -351,19 +351,6 @@ public class OpenGL3Demo {
         glfwShowWindow(window);
     }
 
-
-
-    public void setWIDTH(int WIDTH) {
-        this.WIDTH = WIDTH;
-    }
-
-    public void setHEIGHT(int HEIGHT) {
-        this.HEIGHT = HEIGHT;
-    }
-
-    public void setTITLE(String TITLE) {
-        this.TITLE = TITLE;
-    }
 
     public static void main(String[] argv) {
         System.setProperty("org.lwjgl.librarypath", new File("natives/windows/x86").getAbsolutePath());
