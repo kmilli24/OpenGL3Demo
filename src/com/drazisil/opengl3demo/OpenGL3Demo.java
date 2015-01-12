@@ -131,6 +131,7 @@ public class OpenGL3Demo {
         // load the shaders
         shaderID = ShaderLoader.loadShaderPair("resources/shaders/triangle.vs", "resources/shaders/triangle.fs");
 
+        timer.init();
 
         // Set the clear color (RGBA)
         GL11.glClearColor(0f, 0f, 1f, 0f);

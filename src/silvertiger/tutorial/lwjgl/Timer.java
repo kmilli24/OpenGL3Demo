@@ -134,12 +134,4 @@ public class Timer {
         return ups > 0 ? ups : upsCount;
     }
 
-    /**
-     * Getter for the last loop time.
-     *
-     * @return System time of the last loop
-     */
-    public double getLastLoopTime() {
-        return lastLoopTime;
-    }
 }
