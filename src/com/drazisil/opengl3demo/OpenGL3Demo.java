@@ -152,7 +152,7 @@ public class OpenGL3Demo {
             alpha = accumulator / interval;
 
             /* Render game and update timer FPS */
-            render(alpha);
+            render();
             timer.updateFPS();
 
             /* Update timer */
@@ -216,7 +216,7 @@ public class OpenGL3Demo {
 
     }
 
-    private void render(float alpha) {
+    private void render() {
         // set the ratio
         float ratio = WIDTH / (float) HEIGHT;
 
