@@ -48,7 +48,7 @@ public class KeyHandler extends GLFWKeyCallback {
      */
     @Override
     public void invoke(long window, int key, int scancode, int action, int mods) {
-        if (window == getWindow()){
+        if (window == game.getWindow()){
 
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, GL11.GL_TRUE); // We will detect this in our rendering loop
@@ -58,8 +58,8 @@ public class KeyHandler extends GLFWKeyCallback {
             if (key == GLFW_KEY_W && action == GLFW_RELEASE) game.setY(game.getY() - 0.35f * game.getDelta());
             if (key == GLFW_KEY_S && action == GLFW_RELEASE) game.setY(game.getY() + 0.35f * game.getDelta());
 
-            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) game.setRotation(game.getRotation() + 0.35f * game.getDelta());
-            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE) game.setRotation(game.getRotation() - 0.35f * game.getDelta());
+            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) game.setRotation((game.getRotation() + 0.35f) * game.getDelta());
+            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE) game.setRotation((game.getRotation() - 0.35f) * game.getDelta());
 
             if (key == GLFW_KEY_Z && action == GLFW_RELEASE) game.setScale(game.getScale() + 0.35f * game.getDelta());
             if (key == GLFW_KEY_X && action == GLFW_RELEASE) game.setScale(game.getScale() - 0.35f * game.getDelta());

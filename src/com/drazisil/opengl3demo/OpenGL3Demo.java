@@ -50,6 +50,10 @@ public class OpenGL3Demo {
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
 
+    public long getWindow() {
+        return window;
+    }
+
     // The window handle
     protected long window;
     // window width
@@ -65,13 +69,10 @@ public class OpenGL3Demo {
     float alpha;
     float scale;
     float defaultScale;
+    private float z;
 
     public float getDefaultScale() {
         return defaultScale;
-    }
-
-    public void setDefaultScale(float defaultScale) {
-        this.defaultScale = defaultScale;
     }
 
     public float getScale() {
@@ -154,6 +155,14 @@ public class OpenGL3Demo {
 
         // Set the clear color (RGBA)
         GL11.glClearColor(0f, 0f, 1f, 0f);
+
+        // Initial values
+        x = 400f;
+        y = 300f;
+        z = 0;
+        rotation = 0f;
+        defaultScale = 50f;
+        scale = defaultScale;
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -246,7 +255,7 @@ public class OpenGL3Demo {
     private void render() {
         // set the ratio
         float ratio = WIDTH / (float) HEIGHT;
-        rotation = (float) glfwGetTime() * 50.f;
+        //rotation = (float) glfwGetTime() * 50.f;
 
         // set the viewport
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
@@ -334,7 +343,30 @@ public class OpenGL3Demo {
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, keyCallback = new KeyHandler(this, window));
+        glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                    if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                        glfwSetWindowShouldClose(window, GL11.GL_TRUE); // We will detect this in our rendering loop
+
+                    if (key == GLFW_KEY_A && action == GLFW_RELEASE) x -= 0.35f * delta;
+                    if (key == GLFW_KEY_D && action == GLFW_RELEASE) x += 0.35f * delta;
+                    if (key == GLFW_KEY_W && action == GLFW_RELEASE) y -= 0.35f * delta;
+                    if (key == GLFW_KEY_S && action == GLFW_RELEASE) y += 0.35f * delta;
+
+                    if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) rotation += 0.35f * delta;
+                    if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE) rotation -= 0.35f * delta;
+
+                    if (key == GLFW_KEY_Z && action == GLFW_RELEASE) scale += 0.35f * delta;
+                if (key == GLFW_KEY_X && action == GLFW_RELEASE) scale -= 0.35f * delta;
+
+                    if ((key == GLFW_KEY_0 || key == GLFW_KEY_KP_0) && action == GLFW_RELEASE) {
+                        rotation = 0f;
+                        scale = defaultScale;
+                    }
+
+            }
+        });
 
         // Get the resolution of the primary monitor
         ByteBuffer videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
