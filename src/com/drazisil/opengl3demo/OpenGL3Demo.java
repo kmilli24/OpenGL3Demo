@@ -44,38 +44,40 @@ public class OpenGL3Demo {
     private static Timer timer;
 
     //protected static final int TARGET_FPS = 60;
-    protected static final int TARGET_UPS = 60;
+    private static final int TARGET_UPS = 60;
 
     // We need to strongly reference callback instances.
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
 
     // The window handle
-    protected long window;
+    private long window;
     // window width
     private int WIDTH;
 
     // widow height
     private int HEIGHT;
 
-    float delta;
-    float accumulator = 0f;
-    float interval = 1f / TARGET_UPS;
-    float alpha;
-    float scale;
-    float defaultScale;
+    private float delta;
+    private float accumulator = 0f;
+    private float interval = 1f / TARGET_UPS;
+    private float alpha;
+    private float scale;
+    private float defaultScale;
 
     // this will identify our shaders
     private int shaderID;
 
     // This will identify our vertex buffer
-    int vertexBuffer;
+    private int vertexBuffer;
 
     // This will identify our color buffer
-    int vertexBufferColor;
+    private int vertexBufferColor;
 
+    // angle of rotation
     private float rotation;
 
+    // coordinates
     private float x;
     private float y;
     private float z;
@@ -122,8 +124,8 @@ public class OpenGL3Demo {
         //x = 400f;
         //y = 300f;
         z = 0f;
-        //rotation = 0f;
-        //defaultScale = 50f;
+        rotation = 0f;
+        defaultScale = 50f;
         scale = defaultScale;
 
         initObjects();
