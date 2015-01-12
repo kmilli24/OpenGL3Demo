@@ -63,6 +63,24 @@ public class OpenGL3Demo {
     float accumulator = 0f;
     float interval = 1f / TARGET_UPS;
     float alpha;
+    float scale;
+    float defaultScale;
+
+    public float getDefaultScale() {
+        return defaultScale;
+    }
+
+    public void setDefaultScale(float defaultScale) {
+        this.defaultScale = defaultScale;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
 
     // this will identify our shaders
     private int shaderID;
@@ -72,6 +90,16 @@ public class OpenGL3Demo {
 
     // This will identify our color buffer
     int vertexbuffercolor;
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    private float rotation;
 
     public float getX() {
         return x;
@@ -218,7 +246,7 @@ public class OpenGL3Demo {
     private void render() {
         // set the ratio
         float ratio = WIDTH / (float) HEIGHT;
-        float rotation = (float) glfwGetTime() * 50.f;
+        rotation = (float) glfwGetTime() * 50.f;
 
         // set the viewport
         GL11.glViewport(0, 0, WIDTH, HEIGHT);

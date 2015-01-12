@@ -54,9 +54,20 @@ public class KeyHandler extends GLFWKeyCallback {
                 glfwSetWindowShouldClose(window, GL11.GL_TRUE); // We will detect this in our rendering loop
 
             if (key == GLFW_KEY_A && action == GLFW_RELEASE) game.setX(game.getX() - 0.35f * game.getDelta());
-            //if (Keyboard.isKeyDown(Keyboard.KEY_D)) x += 0.35f * delta;
-            //if (Keyboard.isKeyDown(Keyboard.KEY_W)) y -= 0.35f * delta;
-            //if (Keyboard.isKeyDown(Keyboard.KEY_S)) y += 0.35f * delta;
+            if (key == GLFW_KEY_D && action == GLFW_RELEASE) game.setX(game.getX() + 0.35f * game.getDelta());
+            if (key == GLFW_KEY_W && action == GLFW_RELEASE) game.setY(game.getY() - 0.35f * game.getDelta());
+            if (key == GLFW_KEY_S && action == GLFW_RELEASE) game.setY(game.getY() + 0.35f * game.getDelta());
+
+            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE) game.setRotation(game.getRotation() + 0.35f * game.getDelta());
+            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE) game.setRotation(game.getRotation() - 0.35f * game.getDelta());
+
+            if (key == GLFW_KEY_Z && action == GLFW_RELEASE) game.setScale(game.getScale() + 0.35f * game.getDelta());
+            if (key == GLFW_KEY_X && action == GLFW_RELEASE) game.setScale(game.getScale() - 0.35f * game.getDelta());
+
+            if ((key == GLFW_KEY_0 || key == GLFW_KEY_KP_0) && action == GLFW_RELEASE) {
+                game.setRotation(0f);
+                game.setScale(game.getDefaultScale());
+            }
 
         }
     }
