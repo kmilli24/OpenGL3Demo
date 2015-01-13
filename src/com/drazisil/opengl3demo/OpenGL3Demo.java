@@ -131,7 +131,7 @@ public class OpenGL3Demo {
         initObjects();
 
         // load the shaders
-        shaderID = ShaderLoader.loadShaderPair("resources/shaders/triangle.vs", "resources/shaders/triangle.fs");
+        shaderID = ShaderLoader.loadShaderPair("resources/shaders/triangle.vert", "resources/shaders/triangle.frag");
 
         timer.init();
 
@@ -183,8 +183,8 @@ public class OpenGL3Demo {
 
 
         // Create and bind the vertex id
-        int vertexArreyID = glGenVertexArrays();
-        glBindVertexArray(vertexArreyID);
+        int vertexArrayID = glGenVertexArrays();
+        glBindVertexArray(vertexArrayID);
 
         // An array of 3 vectors which represents 3 vertices
         float[] vertexTriangle = {
@@ -247,7 +247,7 @@ public class OpenGL3Demo {
 
         //GL11.glMatrixMode(GL11.GL_PROJECTION);
 
-        // Without this one it races into negitive z-space
+        // Without this one it races into negative z-space
         GL11.glLoadIdentity();
 
         // This one is needed to make it even on all sides
