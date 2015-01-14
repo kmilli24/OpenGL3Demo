@@ -1,6 +1,6 @@
 
 /*
- * Copyright [2015] [Joseph W Becher <jwbecher@drazisil.com>]
+ * Copyright 2015 Joseph W Becher <jwbecher@drazisil.com>
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -118,13 +118,17 @@ public class OpenGL3Demo {
 
         InitializeVertexBuffer();
         InitializeProgram();
+        // tell OpenGL what shader id we are using
         glUseProgram(shader);
 
+        // clear the screen
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // actually draw the triangle
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
+        // disable the attribute array
         glDisableVertexAttribArray(0);
 
     }
@@ -142,7 +146,6 @@ public class OpenGL3Demo {
          * The first half contains the position
          * The second half contains the colors
           */
-
         float[] vertexDataFloat = {
                 0.0f,    0.5f, 0.0f, 1.0f,
                 0.5f, -0.366f, 0.0f, 1.0f,
