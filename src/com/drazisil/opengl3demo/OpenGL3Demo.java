@@ -148,6 +148,11 @@ public class OpenGL3Demo {
         int amountOfVertices = 3;
         int vertexSize = vertexDataFloat.length;
 
+        /**
+         * These next three lines are tricky.
+         * They are unique to LWJGL and are referenced in only a few places
+         * They are explained in https://github.com/LWJGL/lwjgl3-wiki/wiki/2.6.5-Basics-of-modern-OpenGL-%28Part-II%29#rendering-with-buffers
+         */
         vertexData = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
         vertexData.put(vertexDataFloat);
         vertexData.flip();
