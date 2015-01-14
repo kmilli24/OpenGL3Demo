@@ -1,13 +1,7 @@
-#version 330 core
-in  vec3 vertex;
-in  vec3 in_Color;
-out vec3 ex_Color;
+#version 330
 
-uniform mat4 gl_ModelViewMatrix;
-uniform mat4 gl_ProjectionMatrix;
-
-void main(void) {
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * vec4(vertex, 1.0);
-    //gl_Position = vec4(vertex, 1.0);
-	ex_Color = in_Color;
+layout(location = 0) in vec4 position;
+void main()
+{
+    gl_Position = position;
 }
