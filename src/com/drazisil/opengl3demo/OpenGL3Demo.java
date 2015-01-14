@@ -130,12 +130,19 @@ public class OpenGL3Demo {
     }
 
     private void InitializeProgram() {
+        // TODO: Make own shader loader
         shader = loadShaderPair("resources/shaders/triangle.vert", "resources/shaders/triangle.frag");
 
 
     }
 
     private void InitializeVertexBuffer() {
+        /**
+         * This is a combined float[]
+         * The first half contains the position
+         * The second half contains the colors
+          */
+
         float[] vertexDataFloat = {
                 0.0f,    0.5f, 0.0f, 1.0f,
                 0.5f, -0.366f, 0.0f, 1.0f,
@@ -145,6 +152,7 @@ public class OpenGL3Demo {
                 0.0f,    0.0f, 1.0f, 1.0f,        };
         // vertex vertexDataFloat
 
+        // 3 vertices for the triangle
         int amountOfVertices = 3;
         int vertexSize = vertexDataFloat.length;
 
