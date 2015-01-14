@@ -43,7 +43,7 @@ public class OpenGL3Demo {
     private int width = 640;
     private int height = 480;
 
-    private FloatBuffer vertexPositions;
+    private FloatBuffer vertexData;
     private int shader;
 
     public void run(){
@@ -136,29 +136,33 @@ public class OpenGL3Demo {
     }
 
     private void InitializeVertexBuffer() {
-        float[] positions = {
-                0.75f, 0.75f, 0.0f, 1.0f,
-                0.75f, -0.75f, 0.0f, 1.0f,
-                -0.75f, -0.75f, 0.0f, 1.0f,
-        };
-        // vertex positions
+        float[] vertexDataFloat = {
+                0.0f,    0.5f, 0.0f, 1.0f,
+                0.5f, -0.366f, 0.0f, 1.0f,
+                -0.5f, -0.366f, 0.0f, 1.0f,
+                1.0f,    0.0f, 0.0f, 1.0f,
+                0.0f,    1.0f, 0.0f, 1.0f,
+                0.0f,    0.0f, 1.0f, 1.0f,        };
+        // vertex vertexDataFloat
 
         int amountOfVertices = 3;
-        int vertexSize = positions.length;
+        int vertexSize = vertexDataFloat.length;
 
-        vertexPositions = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
-        vertexPositions.put(positions);
-        vertexPositions.flip();
+        vertexData = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
+        vertexData.put(vertexDataFloat);
+        vertexData.flip();
 
         int positionBufferObject = glGenBuffers();
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, vertexPositions, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
 
     }
 
