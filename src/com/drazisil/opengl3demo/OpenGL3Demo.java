@@ -94,6 +94,7 @@ public class OpenGL3Demo {
     }
 
     private void loop() {
+        // It is required to have an active OpenGL context
         GLContext.createFromCurrent();
 
         // set the viewport
