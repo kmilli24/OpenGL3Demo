@@ -17,7 +17,6 @@
 
 package com.drazisil.opengl3demo;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GLContext;
@@ -28,12 +27,13 @@ import java.nio.FloatBuffer;
 import static java.lang.System.exit;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 import static utility.ShaderLoader.loadShaderPair;
 
 public class OpenGL3Demo {
 
+    private static VBO vbo;
     // GLFW error callback
     private GLFWErrorCallback error_callback;
     // GLFW key callback
@@ -116,7 +116,7 @@ public class OpenGL3Demo {
 
     private void renderGL() {
 
-        InitializeVertexBuffer();
+        vbo.init();
         InitializeProgram();
         // tell OpenGL what shader id we are using
         glUseProgram(shader);
@@ -125,8 +125,7 @@ public class OpenGL3Demo {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // actually draw the triangle
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        vbo.render();
 
         // disable the attribute array
         glDisableVertexAttribArray(0);
@@ -140,50 +139,9 @@ public class OpenGL3Demo {
 
     }
 
-    private void InitializeVertexBuffer() {
-        /**
-         * This is a combined float[]
-         * The first half contains the position
-         * The second half contains the colors
-          */
-        float[] vertexDataFloat = {
-                0.0f,    0.5f, 0.0f, 1.0f,
-                0.5f, -0.366f, 0.0f, 1.0f,
-                -0.5f, -0.366f, 0.0f, 1.0f,
-                1.0f,    0.0f, 0.0f, 1.0f,
-                0.0f,    1.0f, 0.0f, 1.0f,
-                0.0f,    0.0f, 1.0f, 1.0f,        };
-        // vertex vertexDataFloat
-
-        // 3 vertices for the triangle
-        int amountOfVertices = 3;
-        int vertexSize = vertexDataFloat.length;
-
-        /**
-         * These next three lines are tricky.
-         * They are unique to LWJGL and are referenced in only a few places
-         * They are explained in https://github.com/LWJGL/lwjgl3-wiki/wiki/2.6.5-Basics-of-modern-OpenGL-%28Part-II%29#rendering-with-buffers
-         */
-        vertexData = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
-        vertexData.put(vertexDataFloat);
-        vertexData.flip();
-
-        int positionBufferObject = glGenBuffers();
-
-        glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
-        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
-
-    }
-
     public static void main(String[] argv) {
         System.setProperty("org.lwjgl.librarypath", new File("natives/windows/x86").getAbsolutePath());
+        vbo = new VBO();
         OpenGL3Demo openGL3Demo = new OpenGL3Demo();
         openGL3Demo.run();
     }
