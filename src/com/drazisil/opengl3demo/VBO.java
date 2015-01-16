@@ -20,6 +20,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
@@ -31,7 +32,12 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 public class VBO {
 
+    // rotational offset
+    private float xOffset;
+    private float yOffset;
+
     public void init(){
+        ComputePositionOffsets();
         /**
          * This is a combined float[]
          * The first half contains the position
@@ -43,7 +49,8 @@ public class VBO {
                 -0.5f, -0.366f, 0.0f, 1.0f,
                 1.0f,    0.0f, 0.0f, 1.0f,
                 0.0f,    1.0f, 0.0f, 1.0f,
-                0.0f,    0.0f, 1.0f, 1.0f,        };
+                0.0f,    0.0f, 1.0f, 1.0f,
+        };
         // vertex vertexDataFloat
 
         // 3 vertices for the triangle
@@ -62,7 +69,7 @@ public class VBO {
         int positionBufferObject = glGenBuffers();
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STREAM_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
@@ -72,6 +79,19 @@ public class VBO {
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
 
     }
+
+    private void ComputePositionOffsets(){
+        float loopDuration = 5.0f;
+        float scale = 3.14159f * 2.0f / loopDuration;
+
+        float elapsedTime = (float) (glfwGetTime() / 1000.0f);
+
+        float fCurrTimeThroughLoop = elapsedTime % loopDuration;
+
+        xOffset = (float) (Math.cos(fCurrTimeThroughLoop * scale) * 0.5f);
+        yOffset = (float) (Math.cos(fCurrTimeThroughLoop * scale) * 0.5f);
+    }
+
 
 
     public void render() {

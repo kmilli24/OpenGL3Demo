@@ -133,6 +133,7 @@ public class OpenGL3Demo {
 
     }
 
+
     private void InitializeProgram() {
         // TODO: Make own shader loader
         shader = loadShaderPair("resources/shaders/triangle.vert", "resources/shaders/triangle.frag");
