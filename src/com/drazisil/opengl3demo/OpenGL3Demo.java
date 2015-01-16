@@ -103,6 +103,8 @@ public class OpenGL3Demo {
         // set the timer
         double time = glfwGetTime();
 
+        vbo.init();
+
         while (glfwWindowShouldClose(window) == 0)
         {
             renderGL();
@@ -117,7 +119,7 @@ public class OpenGL3Demo {
 
     private void renderGL() {
 
-        vbo.init();
+        vbo.AdjustVertexData();
         InitializeProgram();
         // tell OpenGL what shader id we are using
         glUseProgram(shader);

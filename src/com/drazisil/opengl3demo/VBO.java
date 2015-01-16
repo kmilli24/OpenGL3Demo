@@ -32,9 +32,12 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 public class VBO {
 
+    protected float[] vertexDataFloat;
+
     // rotational offset
     private float xOffset;
     private float yOffset;
+    private int positionBufferObject;
 
     public void init(){
         ComputePositionOffsets();
@@ -44,8 +47,8 @@ public class VBO {
          * The second half contains the colors
          */
         // Positions
-        float[] vertexDataFloat = {
-                0.0f,    0.5f, 0.0f, 1.0f,
+        vertexDataFloat = new float[]{
+                0.0f, 0.5f, 0.0f, 1.0f,
                 0.5f, -0.366f, 0.0f, 1.0f,
                 -0.5f, -0.366f, 0.0f, 1.0f,
         };
@@ -97,6 +100,31 @@ public class VBO {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
+    }
+
+    public void AdjustVertexData(){
+        ComputePositionOffsets();
+        float[] newDataFloat = vertexDataFloat.clone();
+
+        for(int iVertex = 0; iVertex < vertexDataFloat.length; iVertex += 4)
+        {
+            newDataFloat[iVertex] += xOffset;
+            newDataFloat[iVertex + 1] += yOffset;
+        }
+
+        // 3 vertices for the triangle
+        int amountOfVertices = 3;
+        int vertexSize = vertexDataFloat.length;
+
+        // prep the new position
+        FloatBuffer vertexNewData = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
+        vertexNewData.put(newDataFloat);
+        vertexNewData.flip();
+
+        // attach vertexData to positionBufferObject
+        //int positionBufferObject = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertexNewData);
     }
 
     private void ComputePositionOffsets(){
