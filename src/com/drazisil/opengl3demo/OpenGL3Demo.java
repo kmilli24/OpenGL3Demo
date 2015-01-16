@@ -21,7 +21,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GLContext;
 
-import java.io.File;
 import java.nio.FloatBuffer;
 
 import static java.lang.System.exit;
@@ -103,10 +102,14 @@ public class OpenGL3Demo {
         // set the timer
         double time = glfwGetTime();
 
-        vbo.init();
 
         while (glfwWindowShouldClose(window) == 0)
         {
+            vbo.init();
+            InitializeProgram();
+
+            vbo.AdjustVertexData();
+
             renderGL();
 
             // wait for key events
@@ -119,8 +122,7 @@ public class OpenGL3Demo {
 
     private void renderGL() {
 
-        vbo.AdjustVertexData();
-        InitializeProgram();
+        //vbo.AdjustVertexData();
         // tell OpenGL what shader id we are using
         glUseProgram(shader);
 
@@ -144,7 +146,7 @@ public class OpenGL3Demo {
     }
 
     public static void main(String[] argv) {
-        System.setProperty("org.lwjgl.librarypath", new File("natives/windows/x86").getAbsolutePath());
+        //System.setProperty("org.lwjgl.librarypath", new File("natives/windows/x86").getAbsolutePath());
         vbo = new VBO();
         OpenGL3Demo openGL3Demo = new OpenGL3Demo();
         openGL3Demo.run();

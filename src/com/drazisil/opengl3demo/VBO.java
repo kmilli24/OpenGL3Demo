@@ -40,7 +40,6 @@ public class VBO {
     private int positionBufferObject;
 
     public void init(){
-        ComputePositionOffsets();
         /**
          * This is a combined float[]
          * The first half contains the position
