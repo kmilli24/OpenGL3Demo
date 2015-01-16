@@ -92,9 +92,12 @@ public class VBO {
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
         glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
+        //glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
-        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
+        //glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
+        glBindBuffer(GL_ARRAY_BUFFER, colorBufferObject);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
     }
 
