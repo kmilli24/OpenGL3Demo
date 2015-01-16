@@ -43,15 +43,14 @@ public class VBO {
          * The first half contains the position
          * The second half contains the colors
          */
+        // Positions
         float[] vertexDataFloat = {
                 0.0f,    0.5f, 0.0f, 1.0f,
                 0.5f, -0.366f, 0.0f, 1.0f,
                 -0.5f, -0.366f, 0.0f, 1.0f,
-                1.0f,    0.0f, 0.0f, 1.0f,
-                0.0f,    1.0f, 0.0f, 1.0f,
-                0.0f,    0.0f, 1.0f, 1.0f,
         };
 
+        // Colors
         float[] vertexColorsFloat = {
                 1.0f,    0.0f, 0.0f, 1.0f,
                 0.0f,    1.0f, 0.0f, 1.0f,
@@ -68,6 +67,7 @@ public class VBO {
          * They are unique to LWJGL and are referenced in only a few places
          * They are explained in https://github.com/LWJGL/lwjgl3-wiki/wiki/2.6.5-Basics-of-modern-OpenGL-%28Part-II%29#rendering-with-buffers
          */
+        // prep the positions
         FloatBuffer vertexData = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
         vertexData.put(vertexDataFloat);
         vertexData.flip();
@@ -77,24 +77,22 @@ public class VBO {
         vertexColors.put(vertexColorsFloat);
         vertexColors.flip();
 
+        // attach vertexData to positionBufferObject
         int positionBufferObject = glGenBuffers();
-
-        int colorBufferObject = glGenBuffers();
-
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
         glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STREAM_DRAW);
 
+        // attach vertexColors to colorBufferObject
+        int colorBufferObject = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, vertexColors, GL_STREAM_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexColors, GL_STATIC_DRAW);
 
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+        // Assign positionBufferObject to Attribute 0
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
         glEnableVertexAttribArray(0);
-        //glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
-        //glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 48);
+
+        // Assign colorBufferObject to Attribute 1
         glBindBuffer(GL_ARRAY_BUFFER, colorBufferObject);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
