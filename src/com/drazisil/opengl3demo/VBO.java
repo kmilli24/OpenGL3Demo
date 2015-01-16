@@ -51,7 +51,13 @@ public class VBO {
                 0.0f,    1.0f, 0.0f, 1.0f,
                 0.0f,    0.0f, 1.0f, 1.0f,
         };
-        // vertex vertexDataFloat
+
+        float[] vertexColorsFloat = {
+                1.0f,    0.0f, 0.0f, 1.0f,
+                0.0f,    1.0f, 0.0f, 1.0f,
+                0.0f,    0.0f, 1.0f, 1.0f,
+        };
+
 
         // 3 vertices for the triangle
         int amountOfVertices = 3;
@@ -66,10 +72,22 @@ public class VBO {
         vertexData.put(vertexDataFloat);
         vertexData.flip();
 
+        // prep the colors
+        FloatBuffer vertexColors = BufferUtils.createFloatBuffer(vertexSize + amountOfVertices);
+        vertexColors.put(vertexColorsFloat);
+        vertexColors.flip();
+
         int positionBufferObject = glGenBuffers();
+
+        int colorBufferObject = glGenBuffers();
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
         glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STREAM_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, colorBufferObject);
+        glBufferData(GL_ARRAY_BUFFER, vertexColors, GL_STREAM_DRAW);
+
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, positionBufferObject);
